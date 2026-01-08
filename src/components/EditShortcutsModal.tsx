@@ -48,7 +48,7 @@ const EditShortcutsModal = ({
                   id={shortcut.id}
                   checked={shortcut.enabled}
                   onCheckedChange={() => onToggleShortcut(shortcut.id)}
-                  className="data-[state=checked]:bg-secondary data-[state=checked]:border-secondary"
+                  className="data-[state=checked]:bg-dashboard data-[state=checked]:border-dashboard"
                 />
                 <Label
                   htmlFor={shortcut.id}
@@ -70,7 +70,7 @@ const EditShortcutsModal = ({
           </Button>
           <Button
             onClick={onSave}
-            className="bg-secondary hover:bg-secondary/90"
+            className="bg-dashboard hover:bg-dashboard/90"
           >
             Save Changes
           </Button>

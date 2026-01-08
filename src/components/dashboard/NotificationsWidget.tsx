@@ -28,22 +28,6 @@ const notifications: Notification[] = [
     daysAgo: 1,
     category: "HR",
   },
-  {
-    id: "3",
-    type: "warning",
-    title: "Tax Filing Reminder",
-    description: "Quarterly tax filing deadline approaching in 5 days",
-    daysAgo: 3,
-    category: "Taxes",
-  },
-  {
-    id: "4",
-    type: "success",
-    title: "Loan Application Approved",
-    description: "John Smith's loan request has been processed",
-    daysAgo: 1,
-    category: "Loans",
-  },
 ];
 
 const iconMap = {
@@ -64,9 +48,9 @@ export function NotificationsWidget() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="widget-card"
+      className="widget-card h-full flex flex-col"
     >
-      <div className="widget-header bg-gradient-to-r from-warning/10 to-transparent">
+      <div className="widget-header ">
         <h3 className="widget-title">Top things to do</h3>
       </div>
       <div className="divide-y divide-border/50">
@@ -102,7 +86,7 @@ export function NotificationsWidget() {
           );
         })}
       </div>
-      <div className="px-5 py-3 border-t border-border/50">
+      <div className="px-5 py-3 border-t border-border/50 h-full flex items-center justify-center">
         <Link
           to="/notifications"
           className="text-sm font-medium text-accent hover:text-accent/80 flex items-center justify-center gap-1"

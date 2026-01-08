@@ -36,16 +36,6 @@ const navItems: NavItem[] = [
     path: "/",
   },
   {
-    label: "Employees",
-    icon: <Users size={20} />,
-    children: [
-      { label: "All Employees", path: "/employees" },
-      { label: "Onboarding", path: "/employees/onboarding" },
-      { label: "Manual Onboard", path: "/employees/onboard/manual" },
-      { label: "Auto Onboard", path: "/employees/onboard/auto" },
-    ],
-  },
-  {
     label: "Payroll",
     icon: <DollarSign size={20} />,
     children: [
@@ -53,6 +43,16 @@ const navItems: NavItem[] = [
       { label: "Generate Payslips", path: "/payroll/payslips" },
       { label: "Deductions", path: "/payroll/deductions" },
       { label: "Allowances", path: "/payroll/allowances" },
+    ],
+  },
+  {
+    label: "People",
+    icon: <Users size={20} />,
+    children: [
+      { label: "All Employees", path: "/employees" },
+      { label: "Onboarding", path: "/employees/onboarding" },
+      { label: "Manual Onboard", path: "/employees/onboard/manual" },
+      { label: "Auto Onboard", path: "/employees/onboard/auto" },
     ],
   },
   {
@@ -162,7 +162,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 space-y-1">
+      <nav className="flex-1 px-3 space-y-1 mt-3">
         {navItems.map((item) => (
           <div key={item.label}>
             {item.children ? (

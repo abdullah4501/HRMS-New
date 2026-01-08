@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Cake, PartyPopper, ChevronLeft, ChevronRight } from "lucide-react";
+import UserIcon from "@/assets/user-icon.jpg";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -16,31 +17,31 @@ const events: Event[] = [
   {
     id: "1",
     type: "anniversary",
-    name: "Jeffrey M",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    name: "Abdur Rahman",
+    avatar: UserIcon,
     date: "Jan 1",
     years: 5,
   },
   {
     id: "2",
     type: "birthday",
-    name: "Sarah K",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    name: "Abdullah Ahmed",
+    avatar: UserIcon,
     date: "Jan 2",
   },
   {
     id: "3",
     type: "anniversary",
-    name: "Mike R",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+    name: "Abdul Rafey",
+    avatar: UserIcon,
     date: "Jan 5",
     years: 3,
   },
   {
     id: "4",
     type: "birthday",
-    name: "Emily W",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    name: "Huzaifa ",
+    avatar: UserIcon,
     date: "Jan 8",
   },
 ];
@@ -109,7 +110,7 @@ export function BirthdaysWidget() {
                 <PartyPopper className="h-4 w-4 text-success" />
               )}
             </div>
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-6 w-6">
               <AvatarImage src={event.avatar} />
               <AvatarFallback>{event.name.substring(0, 2)}</AvatarFallback>
             </Avatar>

@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Calendar, Play, Calculator, Edit } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 export function PayrollActions() {
   return (
@@ -9,52 +8,80 @@ export function PayrollActions() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05 }}
-      className="widget-card h-full"
+      className="bg-white rounded-xl border border-border"
     >
-      <div className="widget-header flex items-center justify-between">
-        <div>
-          <h3 className="widget-title">Upcoming Payroll</h3>
-          <p className="text-lg font-bold text-foreground mt-1">Weekly Payroll</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg hover:bg-muted transition-colors">
-            <Edit className="h-4 w-4 text-muted-foreground" />
-          </button>
-        </div>
+      {/* Header */}
+      <div className="px-6 pt-5 pb-4">
+        <h3 className="text-lg font-semibold text-foreground">
+          Upcoming payroll
+        </h3>
       </div>
 
-      <div className="p-5">
-        {/* Date Selection */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-muted/30 rounded-lg p-4">
-            <p className="text-xs text-muted-foreground mb-2">Check date</p>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-accent" />
-              <span className="text-sm font-semibold text-foreground">01/22/2025</span>
+      <div className="border-t border-border" />
+
+      {/* Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_280px] gap-6 px-6 py-6">
+        {/* Left */}
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <h4 className="text-xl font-semibold text-foreground">
+              Weekly
+            </h4>
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground">
+              Due in 2 days
+              <Calendar className="h-4 w-4" />
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-muted rounded-lg px-4 py-3">
+              <p className="text-sm text-muted-foreground mb-1">
+                Check date
+              </p>
+              <p className="text-lg font-semibold text-foreground">
+                05/22/2025
+              </p>
+            </div>
+
+            <div className="bg-muted rounded-lg px-4 py-3">
+              <p className="text-sm text-muted-foreground mb-1">
+                Pay period
+              </p>
+              <p className="text-lg font-semibold text-foreground">
+                05/20 → 05/26
+              </p>
             </div>
           </div>
-          <div className="bg-muted/30 rounded-lg p-4">
-            <p className="text-xs text-muted-foreground mb-2">Pay period</p>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-foreground">01/15 → 01/22</span>
-            </div>
-          </div>
+
+          <Button className="w-full mt-6 h-12 text-base font-semibold">
+            Run payroll
+          </Button>
         </div>
 
-        {/* Actions */}
-        <div className="space-y-3">
-          <Link to="/payroll">
-            <Button className="w-full btn-primary flex items-center justify-center gap-2 h-11">
-              <Play className="h-4 w-4" />
-              Run payroll
+        {/* Divider */}
+        <div className="hidden lg:block w-px bg-border" />
+
+        {/* Right */}
+        <div>
+          <h4 className="text-lg font-semibold text-foreground mb-4">
+            Payroll actions
+          </h4>
+
+          <div className="space-y-3">
+            <Button
+              variant="outline"
+              className="w-full h-11 text-base font-medium text-primary border-primary"
+            >
+              Off-cycle payroll
             </Button>
-          </Link>
-          <Link to="/payroll/calculate">
-            <Button variant="outline" className="w-full h-11 flex items-center justify-center gap-2">
-              <Calculator className="h-4 w-4" />
+
+            <Button
+              variant="outline"
+              className="w-full h-11 text-base font-medium text-primary border-primary"
+            >
               Calculate manual checks
             </Button>
-          </Link>
+          </div>
         </div>
       </div>
     </motion.div>
