@@ -63,7 +63,7 @@ const TopHeader = ({ title, subtitle }: HeaderProps ) => {
   return (
     <div className=" bg-dashboard">
      
-      <main className="px-6 py-12">
+      <main className="px-6 py-[120px]">
         <div className="max-w-4xl mx-auto">
           {/* Greeting */}
           <h1 className="text-3xl font-semibold text-primary-foreground text-center mb-8">
