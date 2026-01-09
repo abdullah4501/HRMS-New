@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, Calculator, Shield, Star, ChevronRight, MoreHorizontal } from "lucide-react";
+import { FileText, Calculator, Shield, Star, ChevronRight, MoreHorizontal, Umbrella } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const quickReports = [
@@ -23,7 +23,7 @@ const quickReports = [
     id: "3",
     title: "Compliance audit reports",
     description: "Audit reports for your insurance carrier",
-    icon: Shield,
+    icon: Umbrella,
     iconBg: "bg-warning/10",
     iconColor: "text-warning",
   },
@@ -41,7 +41,7 @@ export function ReportsWidget() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25 }}
-      className="widget-card"
+      className="widget-card p-5 h-full flex flex-col p-5"
     >
       <div className="widget-header">
         <h3 className="widget-title">Reports</h3>
@@ -54,25 +54,30 @@ export function ReportsWidget() {
         {quickReports.map((report) => {
           const Icon = report.icon;
           return (
-            <button
+            <div
               key={report.id}
-              className="w-full px-5 py-4 flex items-center gap-4 hover:bg-muted/30 transition-colors text-left"
+              className="relative flex xl:flex-row lg:flex-col md:flex-row sm:flex-row items-center gap-4 py-6 rounded-xl transition-colors cursor-pointer group"
             >
-              <div className={`p-2.5 rounded-lg ${report.iconBg}`}>
-                <Icon className={`h-4 w-4 ${report.iconColor}`} />
+              <div className={`p-4 rounded-full bg-[#0069ff1f]`}>
+                <Icon className="h-9 w-9 text-secondary" />
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="text-sm font-medium text-foreground">{report.title}</h4>
-                <p className="text-xs text-muted-foreground mt-0.5">{report.description}</p>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <h4 className="text-[18px] leading-[18px] font-semibold text-gray-600 mb-1">
+                    {report.title}
+                  </h4>
+                </div>
+                <p className="text-[15px] leading-[18px] text-muted-foreground mb-1">{report.description}</p>
+                
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
-            </button>
+              <ChevronRight strokeWidth={3.5} className="h-6 w-8 text-secondary group-hover:text-accent transition-colors" />
+            </div>
           );
         })}
       </div>
 
-      <div className="px-5 py-4 border-t border-border/50">
-        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+      <div className=" py-4">
+        <h4 className="text-[24px] font-bold text-gray-600 mb-1">
           Top reports
         </h4>
         <div className="space-y-2">
@@ -81,11 +86,11 @@ export function ReportsWidget() {
               key={report.name}
               className="flex items-center justify-between py-1.5"
             >
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-warning" />
-                <span className="text-sm font-medium text-accent">{report.name}</span>
+              <div className="flex items-center gap-5">
+                <Star className="h-8 w-8 text-gray-700" />
+                <span className="text-[18px] font-semibold text-secondary">{report.name}</span>
               </div>
-              <span className="text-xs px-2 py-0.5 rounded bg-accent/10 text-accent font-medium">
+              <span className="text-[18px] px-5 py-3 rounded-[24px] bg-secondary/10 text-secondary font-normal">
                 {report.tag}
               </span>
             </div>
@@ -96,7 +101,7 @@ export function ReportsWidget() {
       <div className="px-5 py-3 border-t border-border/50 text-center">
         <Link
           to="/reports"
-          className="text-sm font-medium text-accent hover:text-accent/80 transition-colors"
+          className="text-[20px] font-bold text-primary hover:text-primary/80 transition-colors"
         >
           View all reports
         </Link>

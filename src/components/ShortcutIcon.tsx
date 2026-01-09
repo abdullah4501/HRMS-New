@@ -14,13 +14,13 @@ const ShortcutIcon = ({ icon: Icon, label, onClick, isEdit = false }: ShortcutIc
       className="flex flex-col items-center gap-3 group"
     >
       <div
-        className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+        className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200 ${
           isEdit
-            ? "border-2 border-dashed border-dashboard-edit-border bg-transparent hover:border-primary-foreground/60"
-            : "bg-dashboard-icon-bg hover:bg-dashboard-icon-bg-hover"
+            ? "border-2 border-dashed border-dashboard-icon-bg bg-transparent hover:border-primary-foreground/60"
+            : "bg-dashboard-icon-bg "
         }`}
       >
-        <Icon size={24} className="text-primary-foreground" />
+        <Icon size={32} className="text-primary-foreground" />
       </div>
       <span className="text-primary-foreground text-sm font-medium">
         {label}

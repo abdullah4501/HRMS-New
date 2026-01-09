@@ -56,7 +56,7 @@ const SearchBar = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-xl mx-auto">
+    <div ref={containerRef} className="relative w-[80%] mx-auto">
       <div className="relative">
         <Search
           size={18}
@@ -69,7 +69,7 @@ const SearchBar = () => {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.trim() && setIsOpen(true)}
           placeholder='Search for "pay a bonus"'
-          className="w-full h-12 pl-11 pr-4 rounded-full bg-dashboard-search-bg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all"
+          className="w-full h-10 pl-11 pr-4 rounded-full bg-dashboard-search-bg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all"
         />
       </div>
 

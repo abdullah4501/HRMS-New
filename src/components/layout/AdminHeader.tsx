@@ -7,7 +7,7 @@ interface HeaderProps {
 
 const AdminHeader = ({ title, subtitle }: HeaderProps ) => {
   return (
-    <header className="flex items-center justify-between px-6 py-4 bg-dashboard">
+    <header className="flex items-center justify-between px-8 py-8 bg-dashboard">
       <div className="text-primary-foreground font-semibold text-lg">
         {title}
       </div>

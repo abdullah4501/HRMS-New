@@ -48,7 +48,7 @@ export function NotificationsWidget() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="widget-card h-full flex flex-col"
+      className="widget-card h-full flex flex-col p-5"
     >
       <div className="widget-header ">
         <h3 className="widget-title">Top things to do</h3>
@@ -60,7 +60,7 @@ export function NotificationsWidget() {
           return (
             <div
               key={notification.id}
-              className="px-5 py-4 hover:bg-muted/30 transition-colors cursor-pointer"
+              className=" py-4 hover:bg-muted/30 transition-colors cursor-pointer"
             >
               <div className="flex items-start gap-3">
                 <div className={`p-2 rounded-lg ${colors}`}>
@@ -89,7 +89,7 @@ export function NotificationsWidget() {
       <div className="px-5 py-3 border-t border-border/50 h-full flex items-center justify-center">
         <Link
           to="/notifications"
-          className="text-sm font-medium text-accent hover:text-accent/80 flex items-center justify-center gap-1"
+          className=" font-semibold text-secondary hover:text-accent/80 flex items-center justify-center gap-1"
         >
           View all notifications
           <ChevronRight className="h-4 w-4" />

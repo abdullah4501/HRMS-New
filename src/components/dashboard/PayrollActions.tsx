@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function PayrollActions() {
@@ -12,7 +12,7 @@ export function PayrollActions() {
     >
       {/* Header */}
       <div className="px-6 pt-5 pb-4">
-        <h3 className="text-lg font-semibold text-foreground">
+        <h3 className="text-[26px] font-bold text-foreground">
           Upcoming payroll
         </h3>
       </div>
@@ -20,11 +20,11 @@ export function PayrollActions() {
       <div className="border-t border-border" />
 
       {/* Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_280px] gap-6 px-6 py-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-[1fr_auto_280px] gap-6 px-6 py-6">
         {/* Left */}
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <h4 className="text-xl font-semibold text-foreground">
+            <h4 className="text-[22px] font-semibold text-foreground">
               Weekly
             </h4>
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted text-sm text-muted-foreground">
@@ -38,7 +38,7 @@ export function PayrollActions() {
               <p className="text-sm text-muted-foreground mb-1">
                 Check date
               </p>
-              <p className="text-lg font-semibold text-foreground">
+              <p className="text-lg font-bold text-gray-600">
                 05/22/2025
               </p>
             </div>
@@ -47,13 +47,13 @@ export function PayrollActions() {
               <p className="text-sm text-muted-foreground mb-1">
                 Pay period
               </p>
-              <p className="text-lg font-semibold text-foreground">
-                05/20 → 05/26
-              </p>
+              <div className="text-lg font-bold text-gray-600 flex flex-wrap items-center gap-2">
+                <span>05/20</span> <ArrowRight className="shrink-0"/> <span>05/26</span>
+              </div>
             </div>
           </div>
 
-          <Button className="w-full mt-6 h-12 text-base font-semibold">
+          <Button className="w-full mt-6 h-11 text-base font-semibold rounded-[10px]">
             Run payroll
           </Button>
         </div>
@@ -67,17 +67,17 @@ export function PayrollActions() {
             Payroll actions
           </h4>
 
-          <div className="space-y-3">
+          <div className="space-y-5">
             <Button
               variant="outline"
-              className="w-full h-11 text-base font-medium text-primary border-primary"
+              className="w-full h-11 text-base font-semibold text-secondary border-secondary hover:bg-secondary hover:text-white"
             >
               Off-cycle payroll
             </Button>
 
             <Button
               variant="outline"
-              className="w-full h-11 text-base font-medium text-primary border-primary"
+              className="w-full h-11 text-base font-semibold text-secondary border-secondary hover:bg-secondary hover:text-white"
             >
               Calculate manual checks
             </Button>

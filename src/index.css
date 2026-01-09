@@ -18,10 +18,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 213 56% 24%;
+    --primary: 220 50% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
+    --secondary: 225 65% 45%;
     --secondary-foreground: 213 56% 24%;
 
     --muted: 210 25% 95%;
@@ -48,7 +48,7 @@
 
     --radius: 0.5rem;
 
-    --sidebar-background: 213 56% 20%;
+    --sidebar-background: 213 100% 20%;
     --sidebar-foreground: 210 40% 96%;
     --sidebar-primary: 205 90% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -77,7 +77,7 @@
 
     --dashboard-bg: 229 58% 20%;
     --dashboard-card: 215 40% 35%;
-    --dashboard-icon-bg: 215 45% 45%;
+    --dashboard-icon-bg: 221 65% 25%;
     --dashboard-icon-bg-hover: 215 50% 50%;
     --dashboard-search-bg: 215 25% 92%;
     --dashboard-edit-border: 215 20% 60%;
@@ -143,11 +143,11 @@
 
 @layer components {
   .sidebar-item {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all duration-200 cursor-pointer;
+    @apply flex items-center gap-5 px-4 py-2.5 rounded-lg text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-200 cursor-pointer;
   }
 
   .sidebar-item-active {
-    @apply bg-sidebar-accent text-sidebar-primary font-medium;
+    @apply bg-sidebar-accent  font-medium;
   }
 
   .stat-card {
@@ -159,11 +159,11 @@
   }
 
   .widget-header {
-    @apply flex items-center justify-between px-5 py-4 border-b border-border/50;
+    @apply flex items-center justify-between pb-4 mb-3 border-b border-gray-300;
   }
 
   .widget-title {
-    @apply text-base font-semibold text-foreground;
+    @apply text-base font-[700] text-[26px] text-foreground;
   }
 
   .data-table {
