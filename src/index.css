@@ -81,7 +81,22 @@
     --dashboard-icon-bg-hover: 215 50% 50%;
     --dashboard-search-bg: 215 25% 92%;
     --dashboard-edit-border: 215 20% 60%;
+    /* Custom payroll tokens */
+    --payroll-blue: 224 76% 48%;
+    --payroll-blue-light: 224 100% 97%;
+    --payroll-blue-hover: 224 76% 42%;
+    --payroll-link: 224 76% 48%;
+    --payroll-text-primary: 220 13% 18%;
+    --payroll-text-secondary: 220 9% 46%;
+    --payroll-text-muted: 220 9% 60%;
+    --payroll-border: 220 13% 91%;
+    --payroll-bg-subtle: 220 14% 98%;
+    --payroll-alert-bg: 224 100% 97%;
+    --payroll-alert-border: 224 76% 90%;
+
   }
+
+
 
   .dark {
     --background: 215 25% 10%;
@@ -147,7 +162,7 @@
   }
 
   .sidebar-item-active {
-    @apply bg-sidebar-accent  font-medium;
+    @apply bg-sidebar-accent font-medium;
   }
 
   .stat-card {
@@ -208,5 +223,60 @@
 
   .badge-destructive {
     @apply bg-destructive/10 text-destructive;
+  }
+
+  .payroll-link {
+    @apply text-primary hover:underline cursor-pointer font-medium;
+  }
+
+  /* Payroll Alert Banner */
+  .payroll-alert {
+    @apply flex items-center justify-between px-6 py-4 rounded-lg;
+    background-color: hsl(var(--payroll-alert-bg));
+    border: 1px solid hsl(var(--payroll-alert-border));
+  }
+
+
+
+  /* Payroll Table */
+  .payroll-table {
+    @apply w-full border-collapse;
+  }
+
+  .payroll-table th {
+    @apply px-4 py-3 border-[#ccc] text-left text-sm font-medium text-muted-foreground border-b;
+  }
+
+  .payroll-table td {
+    @apply px-4 py-2 text-sm border-b border-[#ccc] !important;
+  }
+
+  .payroll-table tbody tr:hover {
+    @apply bg-muted/30;
+  }
+
+  .payroll-table tfoot td {
+    @apply px-4 py-3 font-medium border-t-2 border-border bg-muted/30;
+  }
+
+  /* Step indicator */
+  .step-indicator {
+    @apply flex items-center gap-3;
+  }
+
+  .step-dot {
+    @apply w-4 h-4 rounded-full border-2 flex items-center justify-center;
+  }
+
+  .step-dot-active {
+    @apply bg-primary border-primary;
+  }
+
+  .step-dot-inactive {
+    @apply bg-transparent border-muted-foreground/40;
+  }
+
+  .step-line {
+    @apply flex-1 h-0.5 bg-border;
   }
 }

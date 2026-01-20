@@ -12,15 +12,16 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Search,
-  Download,
-  Mail,
+  Bell,
+  Pencil,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  MoreHorizontal,
+  HelpCircle,
   FileText,
-  DollarSign,
-  Calculator,
-  Play,
-  Filter,
-  Eye,
+  Footprints,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
@@ -48,339 +49,346 @@ interface SalaryRecord {
   netSalary: number;
   status: "pending" | "processed" | "paid";
 }
-
-const salaryRecords: SalaryRecord[] = [
+interface EmployeeRecord {
+  id: string;
+  name: string;
+  department: string;
+  rate: string | null;
+  regularHours: number | null;
+  salaryAmount: number | null;
+  overtimeHours: number | null;
+  overtime: number | null;
+}
+const employeeRecords: EmployeeRecord[] = [
   {
     id: "1",
-    employeeId: "EMP-001",
-    name: "John Smith",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
-    department: "Engineering",
-    basicSalary: 5000,
-    allowances: { housing: 1000, transport: 300, medical: 200, other: 150 },
-    deductions: { tax: 650, insurance: 200, providentFund: 500, loan: 300, other: 50 },
-    netSalary: 4950,
-    status: "pending",
+    name: "Chase, Nancy",
+    department: "1 - Product",
+    rate: "$85.0000 / hr",
+    regularHours: 15.00,
+    salaryAmount: null,
+    overtimeHours: 2.00,
+    overtime: null,
   },
   {
     id: "2",
-    employeeId: "EMP-002",
-    name: "Sarah Johnson",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    department: "Marketing",
-    basicSalary: 4500,
-    allowances: { housing: 900, transport: 250, medical: 200, other: 100 },
-    deductions: { tax: 520, insurance: 200, providentFund: 450, loan: 0, other: 50 },
-    netSalary: 4730,
-    status: "processed",
+    name: "Edelman, Jeffrey",
+    department: "1 - Product",
+    rate: null,
+    regularHours: null,
+    salaryAmount: 26000.00,
+    overtimeHours: null,
+    overtime: null,
   },
   {
     id: "3",
-    employeeId: "EMP-003",
-    name: "Michael Chen",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    department: "Finance",
-    basicSalary: 4200,
-    allowances: { housing: 800, transport: 200, medical: 200, other: 100 },
-    deductions: { tax: 440, insurance: 200, providentFund: 420, loan: 500, other: 50 },
-    netSalary: 3890,
-    status: "paid",
+    name: "Krishna, Joel",
+    department: "1 - Product",
+    rate: null,
+    regularHours: null,
+    salaryAmount: 10000.00,
+    overtimeHours: null,
+    overtime: null,
   },
   {
     id: "4",
-    employeeId: "EMP-004",
-    name: "Emily Davis",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    department: "HR",
-    basicSalary: 3800,
-    allowances: { housing: 700, transport: 200, medical: 200, other: 100 },
-    deductions: { tax: 380, insurance: 200, providentFund: 380, loan: 0, other: 50 },
-    netSalary: 3990,
-    status: "pending",
+    name: "Smith, Carlos",
+    department: "1 - Product",
+    rate: "$25.0000 / hr",
+    regularHours: null,
+    salaryAmount: null,
+    overtimeHours: null,
+    overtime: null,
   },
   {
     id: "5",
-    employeeId: "EMP-005",
-    name: "David Wilson",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    department: "Engineering",
-    basicSalary: 5500,
-    allowances: { housing: 1100, transport: 350, medical: 200, other: 200 },
-    deductions: { tax: 750, insurance: 200, providentFund: 550, loan: 1000, other: 50 },
-    netSalary: 4800,
-    status: "pending",
+    name: "Brannigan, Christine",
+    department: "2 - UX",
+    rate: null,
+    regularHours: null,
+    salaryAmount: 1346.16,
+    overtimeHours: 10.00,
+    overtime: null,
+  },
+  {
+    id: "6",
+    name: "Wells, Sabrina",
+    department: "2 - UX",
+    rate: "$121.0000 / hr",
+    regularHours: null,
+    salaryAmount: null,
+    overtimeHours: null,
+    overtime: null,
   },
 ];
 
-const statusConfig = {
-  pending: { label: "Pending", className: "badge-warning" },
-  processed: { label: "Processed", className: "badge-info" },
-  paid: { label: "Paid", className: "badge-success" },
+const totals = {
+  regularHours: 15.00,
+  salaryAmount: 37346.16,
+  overtimeHours: 12.00,
 };
 
 export default function Payroll() {
-  const [selectedRecords, setSelectedRecords] = useState<string[]>([]);
-  const [payPeriod, setPayPeriod] = useState("jan-2025");
+  const [viewFilter, setViewFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("last-name");
+  const [rowsPerPage, setRowsPerPage] = useState("10");
+  const [currentStep] = useState(1);
 
-  const totalGrossSalary = salaryRecords.reduce(
-    (sum, record) =>
-      sum + record.basicSalary + Object.values(record.allowances).reduce((a, b) => a + b, 0),
-    0
-  );
-  const totalDeductions = salaryRecords.reduce(
-    (sum, record) => sum + Object.values(record.deductions).reduce((a, b) => a + b, 0),
-    0
-  );
-  const totalNetSalary = salaryRecords.reduce((sum, record) => sum + record.netSalary, 0);
-
-  const toggleSelectAll = () => {
-    if (selectedRecords.length === salaryRecords.length) {
-      setSelectedRecords([]);
-    } else {
-      setSelectedRecords(salaryRecords.map((r) => r.id));
-    }
+  const formatCurrency = (value: number | null) => {
+    if (value === null) return "";
+    return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
-  const toggleSelect = (id: string) => {
-    setSelectedRecords((prev) =>
-      prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
-    );
+  const formatNumber = (value: number | null) => {
+    if (value === null) return "";
+    return value.toFixed(2);
   };
-
-  const generatePayslips = () => {
-    toast({
-      title: "Generating Payslips",
-      description: `Generating payslips for ${selectedRecords.length} employees...`,
-    });
-  };
-
-  const sendPayslips = () => {
-    toast({
-      title: "Sending Payslips",
-      description: `Sending payslips via email to ${selectedRecords.length} employees...`,
-    });
-  };
-
   return (
-    <DashboardLayout title="Payroll Management" subtitle="Process salaries and generate payslips">
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-6">
-        <div className="stat-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Gross Salary</p>
-              <p className="text-2xl font-bold text-foreground">
-                ${totalGrossSalary.toLocaleString()}
-              </p>
+    <DashboardLayout isMainPage={false} title="Payroll Management" subtitle="Process salaries and generate payslips">
+      <div className="pt-12">
+        {/* Progress Stepper */}
+        <div className="flex items-center justify-center mb-8">
+          <div className="flex items-center gap-0 w-full max-w-3xl">
+            {/* Step 1 */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-foreground">1. Enter payroll</span>
+              <div className="w-3.5 h-3.5 rounded-full bg-primary" />
             </div>
-            <div className="p-3 rounded-xl bg-accent/10">
-              <DollarSign className="h-5 w-5 text-accent" />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Total Deductions</p>
-              <p className="text-2xl font-bold text-destructive">
-                -${totalDeductions.toLocaleString()}
-              </p>
-            </div>
-            <div className="p-3 rounded-xl bg-destructive/10">
-              <Calculator className="h-5 w-5 text-destructive" />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Net Payable</p>
-              <p className="text-2xl font-bold text-success">${totalNetSalary.toLocaleString()}</p>
-            </div>
-            <div className="p-3 rounded-xl bg-success/10">
-              <DollarSign className="h-5 w-5 text-success" />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Pending</p>
-              <p className="text-2xl font-bold text-warning">
-                {salaryRecords.filter((r) => r.status === "pending").length}
-              </p>
-            </div>
-            <div className="p-3 rounded-xl bg-warning/10">
-              <FileText className="h-5 w-5 text-warning" />
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Actions Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search employees..." className="pl-10" />
-        </div>
-        <div className="flex items-center gap-3">
-          <Select value={payPeriod} onValueChange={setPayPeriod}>
-            <SelectTrigger className="w-44">
-              <SelectValue placeholder="Pay Period" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="jan-2025">January 2025</SelectItem>
-              <SelectItem value="dec-2024">December 2024</SelectItem>
-              <SelectItem value="nov-2024">November 2024</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="outline" className="gap-2">
-            <Filter className="h-4 w-4" />
-            Filters
-          </Button>
-          <Button className="btn-primary gap-2">
-            <Play className="h-4 w-4" />
-            Run Payroll
-          </Button>
-        </div>
-      </div>
+            {/* Line */}
+            <div className="flex-1 h-px bg-border mx-4" />
 
-      {/* Selected Actions */}
-      {selectedRecords.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-4 p-4 bg-accent/5 border border-accent/20 rounded-lg"
-        >
-          <span className="text-sm font-medium">
-            {selectedRecords.length} employee(s) selected
-          </span>
-          <div className="flex items-center gap-2 ml-auto">
-            <Button variant="outline" size="sm" className="gap-2" onClick={generatePayslips}>
-              <Download className="h-4 w-4" />
-              Generate PDF
+            {/* Step 2 */}
+            <div className="flex items-center gap-2">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-muted-foreground/40" />
+              <span className="text-sm text-muted-foreground">2. Preview payroll</span>
+            </div>
+
+            {/* Line */}
+            <div className="flex-1 h-px bg-border mx-4" />
+
+            {/* Step 3 */}
+            <div className="flex items-center gap-2">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-muted-foreground/40" />
+              <span className="text-sm text-muted-foreground">3. Payroll summary</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Alert Banner */}
+        <div className="payroll-alert mb-6">
+          <div className="flex items-center gap-3">
+            <Bell className="h-5 w-5 text-primary" />
+            <span className="text-sm text-foreground">
+              You have outstanding new hires that aren't included in this payroll.
+            </span>
+          </div>
+          <button className="payroll-link text-sm">
+            See outstanding new hires
+          </button>
+        </div>
+
+        {/* Pay Period Info Row */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-8">
+            <h2 className="text-xl font-semibold text-foreground">Biweekly</h2>
+            <div className="flex items-center gap-6 px-5 py-3 border border-border rounded-lg bg-background">
+              <div>
+                <p className="text-xs text-muted-foreground mb-0.5">Pay Period</p>
+                <p className="text-sm font-medium text-foreground">
+                  Jun 2, 2025 <span className="text-muted-foreground mx-1">→</span> Jun 13, 2025
+                </p>
+              </div>
+              <div className="w-px h-10 bg-border" />
+              <div>
+                <p className="text-xs text-muted-foreground mb-0.5">Check date</p>
+                <p className="text-sm font-medium text-foreground">May 23, 2025</p>
+              </div>
+              <button className="p-1.5 hover:bg-muted rounded-md transition-colors">
+                <Pencil className="h-4 w-4 text-primary" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="gap-2 h-10 px-4 border-primary text-primary hover:bg-primary"
+            >
+              <Footprints size={15} />
+              Guide Me
             </Button>
-            <Button size="sm" className="btn-primary gap-2" onClick={sendPayslips}>
-              <Mail className="h-4 w-4" />
-              Send via Email
+            <Button variant="outline" size="icon" className="h-10 w-10 hover:bg-primary">
+              <FileText className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" className="gap-2 h-10 px-4 hover:bg-primary">
+              <HelpCircle className="h-4 w-4" />
+              Need Help
             </Button>
           </div>
-        </motion.div>
-      )}
+        </div>
 
-      {/* Salary Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="widget-card overflow-hidden"
-      >
-        <div className="overflow-x-auto">
-          <table className="data-table">
+        {/* View & Sort Controls */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">View</span>
+              <Select value={viewFilter} onValueChange={setViewFilter}>
+                <SelectTrigger className="w-[140px] h-9 bg-muted/50 border-0">
+                  <SelectValue placeholder="All employees" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All employees</SelectItem>
+                  <SelectItem value="hourly">Hourly</SelectItem>
+                  <SelectItem value="salaried">Salaried</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Sort by</span>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-[130px] h-9 bg-muted/50 border-0">
+                  <SelectValue placeholder="Last name" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="last-name">Last name</SelectItem>
+                  <SelectItem value="first-name">First name</SelectItem>
+                  <SelectItem value="department">Department</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <button className="p-2 hover:bg-muted rounded-md transition-colors">
+            <Settings className="h-5 w-5 text-muted-foreground" />
+          </button>
+        </div>
+
+        {/* Data Table */}
+        <div className="border border-border rounded-lg overflow-hidden bg-background mb-6">
+          <table className="payroll-table">
             <thead>
-              <tr>
-                <th className="w-12">
-                  <Checkbox
-                    checked={selectedRecords.length === salaryRecords.length}
-                    onCheckedChange={toggleSelectAll}
-                  />
-                </th>
-                <th>Employee</th>
-                <th className="text-right">Basic</th>
-                <th className="text-right">Allowances</th>
-                <th className="text-right">Deductions</th>
-                <th className="text-right">Net Salary</th>
-                <th>Status</th>
-                <th className="text-right">Actions</th>
+              <tr className="bg-background">
+                <th className="w-[200px] border-r">Name</th>
+                <th className="w-[150px] border-r">Department</th>
+                <th className="w-[140px] border-r text-right">Rate</th>
+                <th className="w-[130px] border-r text-right">Regular Hours</th>
+                <th className="w-[140px] border-r text-right">Salary Amount</th>
+                <th className="w-[140px] border-r text-right">Overtime Hours</th>
+                <th className="w-[100px] border-r text-right">Overtime</th>
               </tr>
             </thead>
             <tbody>
-              {salaryRecords.map((record) => {
-                const totalAllowances = Object.values(record.allowances).reduce((a, b) => a + b, 0);
-                const totalDeductions = Object.values(record.deductions).reduce((a, b) => a + b, 0);
-
-                return (
-                  <tr key={record.id} className="hover:bg-muted/30">
-                    <td>
-                      <Checkbox
-                        checked={selectedRecords.includes(record.id)}
-                        onCheckedChange={() => toggleSelect(record.id)}
-                      />
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <Avatar>
-                          <AvatarImage src={record.avatar} />
-                          <AvatarFallback>{record.name.substring(0, 2)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium text-foreground">{record.name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {record.employeeId} • {record.department}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="text-right font-medium">
-                      ${record.basicSalary.toLocaleString()}
-                    </td>
-                    <td className="text-right text-success">
-                      +${totalAllowances.toLocaleString()}
-                    </td>
-                    <td className="text-right text-destructive">
-                      -${totalDeductions.toLocaleString()}
-                    </td>
-                    <td className="text-right font-semibold text-foreground">
-                      ${record.netSalary.toLocaleString()}
-                    </td>
-                    <td>
-                      <span className={`badge ${statusConfig[record.status].className}`}>
-                        {statusConfig[record.status].label}
-                      </span>
-                    </td>
-                    <td className="text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <Button variant="ghost" size="icon" title="View Details">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" title="Download Payslip">
-                          <Download className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" title="Send Email">
-                          <Mail className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {employeeRecords.map((record) => (
+                <tr key={record.id}>
+                  <td className="border-r">
+                    <div className="flex items-center gap-2 justify-between">
+                      <button className="payroll-link text-sm font-medium">
+                        {record.name}
+                      </button>
+                      <button className="p-1 hover:bg-muted rounded transition-colors">
+                        <MoreHorizontal size={25} className="text-muted-foreground text-secondary" />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="border-r">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm text-foreground">{record.department}</span>
+                      <ChevronDown className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                  </td>
+                  <td className="text-right text-sm text-foreground border-r">
+                    {record.rate || ""}
+                  </td>
+                  <td className="text-right text-sm text-foreground border-r">
+                    {formatNumber(record.regularHours)}
+                  </td>
+                  <td className="text-right text-sm text-foreground border-r">
+                    {formatCurrency(record.salaryAmount)}
+                  </td>
+                  <td className="text-right text-sm text-foreground border-r">
+                    {formatNumber(record.overtimeHours)}
+                  </td>
+                  <td className="text-right text-sm text-foreground border-r">
+                    {record.overtime !== null ? formatCurrency(record.overtime) : ""}
+                  </td>
+                </tr>
+              ))}
             </tbody>
             <tfoot>
-              <tr className="bg-muted/50 font-semibold">
-                <td colSpan={2} className="px-4 py-3">
-                  Total ({salaryRecords.length} employees)
+              <tr>
+                <td className="font-medium text-foreground !py-3">Totals</td>
+                <td></td>
+                <td className="border-r !py-3"></td>
+                <td className="text-right font-medium text-foreground border-r !py-3">
+                  {formatNumber(totals.regularHours)}
                 </td>
-                <td className="text-right px-4 py-3">
-                  ${salaryRecords.reduce((s, r) => s + r.basicSalary, 0).toLocaleString()}
+                <td className="text-right font-medium text-foreground border-r !py-3">
+                  {formatCurrency(totals.salaryAmount)}
                 </td>
-                <td className="text-right text-success px-4 py-3">
-                  +$
-                  {salaryRecords
-                    .reduce((s, r) => s + Object.values(r.allowances).reduce((a, b) => a + b, 0), 0)
-                    .toLocaleString()}
+                <td className="text-right font-medium text-foreground border-r !py-3">
+                  {formatNumber(totals.overtimeHours)}
                 </td>
-                <td className="text-right text-destructive px-4 py-3">
-                  -$
-                  {salaryRecords
-                    .reduce((s, r) => s + Object.values(r.deductions).reduce((a, b) => a + b, 0), 0)
-                    .toLocaleString()}
-                </td>
-                <td className="text-right px-4 py-3">${totalNetSalary.toLocaleString()}</td>
-                <td colSpan={2}></td>
+                <td></td>
               </tr>
             </tfoot>
           </table>
+
+          {/* Pagination */}
+          <div className="flex items-center justify-end gap-4 px-4 py-3 border-t border-border">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Show rows</span>
+              <Select value={rowsPerPage} onValueChange={setRowsPerPage}>
+                <SelectTrigger className="w-[70px] h-8 bg-muted/50 border-0">
+                  <SelectValue placeholder="10" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-1">
+              <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                <ChevronLeft className="h-4 w-4 text-muted-foreground" />
+              </button>
+              <span className="text-sm text-foreground px-3 py-1 bg-muted rounded">1</span>
+              <span className="text-sm text-muted-foreground">of 1</span>
+              <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </button>
+            </div>
+          </div>
         </div>
-      </motion.div>
+
+        {/* Bottom Actions */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button variant="outline" className="gap-2 h-10 px-4 border-primary text-primary hover:bg-primary">
+              Payroll overrides
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" className="h-10 px-4 border-primary text-primary hover:bg-primary">
+              Add employee
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Button variant="outline" className="h-10 px-6 hover:bg-primary">
+              Cancel
+            </Button>
+            <Button variant="outline" className="h-10 px-6 hover:bg-primary">
+              Save
+            </Button>
+            <Button variant="outline" className="h-10 px-6 hover:bg-primary">
+              Finish later
+            </Button>
+            <Button className="h-10 px-8 bg-primary hover:bg-primary/90 text-primary-foreground">
+              Next
+            </Button>
+          </div>
+        </div>
+      </div>
     </DashboardLayout>
   );
 }

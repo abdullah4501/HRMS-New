@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export function PayrollActions() {
   return (
@@ -53,8 +54,10 @@ export function PayrollActions() {
             </div>
           </div>
 
-          <Button className="w-full mt-6 h-11 text-base font-semibold rounded-[10px]">
-            Run payroll
+          <Button  className="w-full mt-6 h-11 text-base font-semibold rounded-[10px] p-0">
+            <Link to={'/payroll'} className="w-full h-full py-2 px-4">
+              Run payroll
+            </Link>
           </Button>
         </div>
 

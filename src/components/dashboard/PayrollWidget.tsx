@@ -58,7 +58,7 @@ export function PayrollWidget() {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <p className="text-[35px] font-bold text-foreground">
+            <p className="text-[28px] font-bold text-foreground">
               ${total.toLocaleString()}
             </p>
             <p className="text-[20px] text-muted-foreground">Total payroll</p>

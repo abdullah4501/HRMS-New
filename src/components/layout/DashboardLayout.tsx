@@ -27,7 +27,7 @@ export function DashboardLayout({ children, title, subtitle, isMainPage }: Dashb
             </>
           )}
           
-          <main className="p-6 xl:mx-20 lg:mx-12 md:mx-5 mx-0 -mt-24">{children}</main>
+          <main className="p-6 xl:mx-20 lg:mx-12 md:mx-5 mx-0 ">{children}</main>
         </div>
       </div>
     </SidebarProvider>
